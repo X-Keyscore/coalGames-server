@@ -1,11 +1,9 @@
 import 'dotenv/config'
-import { CronJob } from 'cron';
-import mongoose from 'mongoose'
 import Coalitions from '../models/coalitions-model.js'
 import db from '../mongooseService/index.js'
 import extractorCoal from './extractorCoals.js'
 
-async function startUpdate() {
+export default async function startUpdate() {
 	try {
 		console.time("updateService");
 		db.on('error', console.error.bind(console, 'MongoDB connection error:'))
@@ -41,17 +39,8 @@ async function startUpdate() {
 			}
 		});
 		console.timeEnd("updateService");
-		console.log("End");
+		console.log("End Update");
 	} catch (err) {
 		console.error(err);
 	}
 }
-
-console.log('Before job instantiation');
-const job = new CronJob('0 */5 * * * *', function () {
-	const d = new Date();
-	console.log("Start Update :", d);
-	startUpdate();
-});
-console.log('After job instantiation');
-job.start();
