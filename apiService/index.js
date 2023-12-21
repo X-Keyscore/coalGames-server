@@ -20,7 +20,11 @@ export default function startApi() {
 		optionsSuccessStatus: 200 // For legacy browser support
 	})
 	app.use(origin)*/
-	app.use(cors());
+	const origin = cors({
+		origin: "*",
+		optionsSuccessStatus: 200 // For legacy browser support
+	})
+	app.use(origin);
 	res.setHeader('Access-Control-Allow-Origin', '*');
 
 	const limiter = rateLimit({
