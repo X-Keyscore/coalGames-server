@@ -20,12 +20,7 @@ export default function startApi() {
 		optionsSuccessStatus: 200 // For legacy browser support
 	})
 	app.use(origin)*/
-	const origin = cors({
-		origin: "*",
-		optionsSuccessStatus: 200 // For legacy browser support
-	})
-	app.use(origin);
-	res.setHeader('Access-Control-Allow-Origin', '*');
+	app.use(cors());
 
 	const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
