@@ -14,11 +14,13 @@ const { URL_AUDIENCE, API_PORT } = process.env;
 export default function startApi() {
 	app.use(helmet());
 
+	/*
 	const origin = cors({
 		origin: URL_AUDIENCE,
 		optionsSuccessStatus: 200 // For legacy browser support
 	})
-	app.use(origin)
+	app.use(origin)*/
+	app.use(cors());
 
 	const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
