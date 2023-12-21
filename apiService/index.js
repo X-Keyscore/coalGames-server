@@ -1,19 +1,30 @@
 import 'dotenv/config'
 import express from 'express';
-const app = express();
+import rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
 import cors from 'cors';
 import http from 'node:http';
 import Cache from './middleware/Cache.js';
 import db from '../mongooseService/index.js';
 import coalitionsRouter from './routes/coalitions-router.js'
+const app = express();
 
 const { URL_AUDIENCE, API_PORT } = process.env;
 
 export default function startApi() {
-	app.use(cors({
+	app.use(helmet());
+
+	const origin = cors({
 		origin: URL_AUDIENCE,
 		optionsSuccessStatus: 200 // For legacy browser support
-	}))
+	})
+	app.use(origin)
+
+	const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limite chaque IP à 100 requêtes par windowMs
+	});
+	app.use("/api/", limiter);
 	
 	app.use(Cache);
 	
